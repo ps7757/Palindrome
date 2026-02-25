@@ -1,36 +1,53 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+class Node {
+    char data;
+    Node next;
+    Node(char data) { this.data = data; }
+}
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // UC1: Welcome Message
         System.out.println("--- Welcome to the Palindrome Checker App ---");
 
-        // UC7: Deque-Based Optimized Logic
-        String input = "rotator";
-        Deque<Character> deque = new ArrayDeque<>();
+        // UC8: Singly Linked List Logic
+        String input = "noon";
+        if (input.length() <= 1) { System.out.println("Palindrome"); return; }
 
-        // 1. Add all characters to the Deque
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
+        // 1. Build the Linked List
+        Node head = new Node(input.charAt(0));
+        Node temp = head;
+        for (int i = 1; i < input.length(); i++) {
+            temp.next = new Node(input.charAt(i));
+            temp = temp.next;
         }
 
-        boolean isPalindrome = true;
+        // 2. Find Middle using Fast & Slow Pointers
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
-        // 2. Compare Front and Rear simultaneously
-        // A palindrome must match from both ends until 0 or 1 character remains
-        while (deque.size() > 1) {
-            if (!deque.removeFirst().equals(deque.removeLast())) {
-                isPalindrome = false;
+        // 3. Reverse Second Half In-Place
+        Node prev = null, current = slow, nextNode;
+        while (current != null) {
+            nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+
+        // 4. Compare Halves
+        Node firstHalf = head, secondHalf = prev;
+        boolean isPal = true;
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
+                isPal = false;
                 break;
             }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
         }
 
-        // 3. Output Result
-        if (isPalindrome) {
-            System.out.println("UC7 (Deque) Result: '" + input + "' is a palindrome.");
-        } else {
-            System.out.println("UC7 (Deque) Result: '" + input + "' is NOT a palindrome.");
-        }
+        System.out.println("UC8 (Linked List) Result: " + isPal);
     }
 }
