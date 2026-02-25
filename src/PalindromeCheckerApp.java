@@ -3,20 +3,32 @@ public class PalindromeCheckerApp {
         // UC1: Welcome Message
         System.out.println("--- Welcome to the Palindrome Checker App ---");
 
-        // UC3: Manual Reverse Using Loop
-        String original = "madam";
-        String reversed = ""; // Starts empty
+        // UC4: Character Array & Two-Pointer Logic
+        String input = "level";
 
-        // Loop backward from the last character to the first
-        for (int i = original.length() - 1; i >= 0; i--) {
-            reversed += original.charAt(i); // String Concatenation (+)
+        // 1. Convert string to char array
+        char[] charArray = input.toCharArray();
+
+        // 2. Setup Two Pointers
+        int start = 0;
+        int end = charArray.length - 1;
+        boolean isPalindrome = true;
+
+        // 3. Compare start and end characters moving inward
+        while (start < end) {
+            if (charArray[start] != charArray[end]) {
+                isPalindrome = false;
+                break; // Exit loop immediately if a mismatch is found
+            }
+            start++;
+            end--;
         }
 
-        // UC3: Comparison using .equals()
-        if (original.equalsIgnoreCase(reversed)) {
-            System.out.println("UC3 Result: '" + original + "' is a palindrome.");
+        // 4. Display result
+        if (isPalindrome) {
+            System.out.println("UC4 Result: '" + input + "' is a palindrome.");
         } else {
-            System.out.println("UC3 Result: '" + original + "' is NOT a palindrome.");
+            System.out.println("UC4 Result: '" + input + "' is NOT a palindrome.");
         }
     }
 }
