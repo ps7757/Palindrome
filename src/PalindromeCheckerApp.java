@@ -1,34 +1,30 @@
+import java.util.Stack; // Add this import at the very top
+
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
         // UC1: Welcome Message
         System.out.println("--- Welcome to the Palindrome Checker App ---");
 
-        // UC4: Character Array & Two-Pointer Logic
-        String input = "level";
+        // UC5: Stack-Based Palindrome Logic
+        String input = "racecar";
+        Stack<Character> stack = new Stack<>();
 
-        // 1. Convert string to char array
-        char[] charArray = input.toCharArray();
-
-        // 2. Setup Two Pointers
-        int start = 0;
-        int end = charArray.length - 1;
-        boolean isPalindrome = true;
-
-        // 3. Compare start and end characters moving inward
-        while (start < end) {
-            if (charArray[start] != charArray[end]) {
-                isPalindrome = false;
-                break; // Exit loop immediately if a mismatch is found
-            }
-            start++;
-            end--;
+        // 1. PUSH: Put every character of the string into the stack
+        for (int i = 0; i < input.length(); i++) {
+            stack.push(input.charAt(i));
         }
 
-        // 4. Display result
-        if (isPalindrome) {
-            System.out.println("UC4 Result: '" + input + "' is a palindrome.");
+        // 2. POP: Take them out. They will come out in REVERSE order.
+        String reversed = "";
+        while (!stack.isEmpty()) {
+            reversed += stack.pop();
+        }
+
+        // 3. Compare
+        if (input.equalsIgnoreCase(reversed)) {
+            System.out.println("UC5 (Stack) Result: '" + input + "' is a palindrome.");
         } else {
-            System.out.println("UC4 Result: '" + input + "' is NOT a palindrome.");
+            System.out.println("UC5 (Stack) Result: '" + input + "' is NOT a palindrome.");
         }
     }
 }
